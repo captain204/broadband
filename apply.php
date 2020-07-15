@@ -1,4 +1,131 @@
+<?php
 
+$firstnameErr = $lastnameErr = $addressErr = $marital_statusErr 
+= $educationErr=$subjectErr=$religionErr=$stateErr=$dobErr=$imageErr="";
+session_start();
+error_reporting(1);
+include('includes/config.php');
+if(strlen($_SESSION['code'])=="")
+    {   
+    header("Location: login.php"); 
+    }
+    else{
+if(isset($_POST['submit']))
+{
+
+if (empty($_POST["firstname"])) {
+    $firstnameErr = "firstname field is required";
+} else {
+    $firstname=trim(htmlspecialchars($_POST['firstname']));
+    if (!preg_match("/^[a-zA-Z ]*$/", $firstname)) {
+        $firstnameErr = "Only letters and white space allowed";
+    }
+}
+
+
+if (empty($_POST["lastname"])) {
+    $lastnameErr = "lastname is required";
+
+} else {
+    $lastname=trim(htmlspecialchars($_POST['lastname']));
+    if (!preg_match("/^[a-zA-Z ]*$/", $lastname)) {
+        $lastnameErr = "Only letters and white space allowed";
+    }
+}
+
+
+if (empty($_POST["address"])) {
+    $addressErr = "address field is required";
+} else {
+    $address=trim(htmlspecialchars(strtolower($_POST['address'])));
+    if (!preg_match("/^[a-zA-Z ]*$/", $address)) {
+        $addressErr = "Only letters and white space allowed";
+    }
+}
+
+if (empty($_POST["marital_status"])) {
+    $marital_statusErr = "marital status field is required";
+} else {
+    $marital_status=trim(htmlspecialchars(strtolower($_POST['marital_status'])));
+}
+
+
+if (empty($_POST["education"])) {
+    $educationErr = "education field is required";
+} else {
+    $education=trim(htmlspecialchars(strtolower($_POST['education'])));
+}
+
+
+if (empty($_POST["subject"])) {
+    $subjectErr = "subject field is required";
+} else {  
+    $subject = implode(',', $_POST['subject']);    
+}
+
+if (empty($_POST["religion"])) {
+    $religionErr = "religion field is required";
+} else {
+    $religion=trim(htmlspecialchars(strtolower($_POST['religion'])));
+}
+
+
+if (empty($_POST["state"])) {
+    $stateErr = "state field is required";
+} else {
+    $state=trim(htmlspecialchars(strtolower($_POST['state'])));
+}
+
+if (empty($_POST["dob"])) {
+    $dobErr = "date of birth field is required";
+} else {
+    $dob=trim(htmlspecialchars(strtolower($_POST['dob'])));
+}
+
+$code = $_SESSION['code'];  
+
+
+$file = $_FILES['image'];
+$image_name = $_FILES['image']['name'];
+/*echo $image_name;*/
+$image_temp_location = $_FILES["image"]["tmp_name"];
+$move_image = move_uploaded_file($image_temp_location, "./images/$image_name");
+
+if (strlen($image_name)=="")
+{
+    $imageErr = "Please upload an image";
+}
+
+
+$sql="INSERT INTO  applicant(firstname,lastname,address,marital_status,education,subject,religion,state,date_birth,image,code) VALUES(:firstname,:lastname,:address,:marital_status,:education,:subject,:religion,:state,:dob,:image,:code)";
+$query = $dbh->prepare($sql);
+$query->bindParam(':firstname',$firstname,PDO::PARAM_STR);
+$query->bindParam(':lastname',$lastname,PDO::PARAM_STR);
+$query->bindParam(':address',$address,PDO::PARAM_STR);
+$query->bindParam(':marital_status',$marital_status,PDO::PARAM_STR);
+$query->bindParam(':education',$education,PDO::PARAM_STR);
+$query->bindParam(':subject',$subject,PDO::PARAM_STR);
+$query->bindParam(':religion',$religion,PDO::PARAM_STR);
+$query->bindParam(':state',$state,PDO::PARAM_STR);
+$query->bindParam(':dob',$dob,PDO::PARAM_STR);
+$query->bindParam(':image',$image_name,PDO::PARAM_STR);
+$query->bindParam(':code',$code,PDO::PARAM_STR);
+$query->execute();
+
+$lastInsertId = $dbh->lastInsertId();
+
+if($lastInsertId)
+{
+    $msg="Your Application was successfully submitted";
+    echo "<script type='text/javascript'> document.location = 'confirm.php'; </script>";
+}
+else 
+{
+    $error="Something went wrong. Please try again";
+}
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,14 +135,8 @@
         <title>APPLICATION< </title>
         <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" >
         <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" >
-        <link rel="stylesheet" href="css/animate-css/animate.min.css" media="screen" >
-        <link rel="stylesheet" href="css/lobipanel/lobipanel.min.css" media="screen" >
-        <link rel="stylesheet" href="css/prism/prism.css" media="screen" >
-        <link rel="stylesheet" href="css/select2/select2.min.css" >
-        <link rel="stylesheet" href="css/main.css" media="screen" >
-        <script src="js/modernizr/modernizr.min.js"></script>
     </head>
-<body class="top-navbar-fixed">
+<body>
     <div class="container-fluid">                 
         <div class="row">
             <div class="col-md-12">
@@ -24,105 +145,151 @@
                     <div class="panel-title">
                         <h5>Fill the Application info</h5>
                     </div>
+                    <?php if($msg){?>
+                    <div class="alert alert-success left-icon-alert" role="alert">
+                        <strong>Well done!</strong><?php echo htmlentities($msg); ?>
+                    </div><?php } 
+                    else if($error){?>
+                     <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
+                     </div>
+                    <?php } ?>
               </div>
-            <form class="form-horizontal" method="post">
-                <div class="form-group">
-                    <label for="default" class="col-sm-2 control-label">Firstname</label>
-    <div class="col-sm-10">
-    <input type="text" name="firstname" class="form-control" id="firstname" required="required" autocomplete="off">
-    </div>
-    </div>
-    <div class="form-group">
-    <label for="default" class="col-sm-2 control-label">Lastname</label>
-    <div class="col-sm-10">
-    <input type="text" name="lastname" class="form-control" id="lastname" required="required" autocomplete="off">
-    </div>
-    </div>
-    <div class="form-group">
-    <label for="default" class="col-sm-2 control-label">Address</label>
-    <div class="col-sm-10">
-    <input type="text" name="address" class="form-control" id="address" required="required" autocomplete="off">
-    </div>
-    </div>
-
-
-<div class="form-group">
-<label for="default" class="col-sm-2 control-label">Marital Status</label>
-<div class="col-sm-10">
- <select name="class" class="form-control" id="default" required="required">
-    <option value="">Single</option>
-    <option value="">Married</option>
- </select>
-</div>
-</div>
-<div class="form-group">
-    <label for="default" class="col-sm-2 control-label">Education</label>
-    <div class="col-sm-10">
-    <input type="text" name="education" class="form-control" id="educaton" required="required" autocomplete="off">
-    </div>
-</div>
-
-
-<div class="form-group">
-    <label for="default" class="col-sm-2 control-label">Select Best Subject</label>
-    <div class="col-sm-10">
-    <input type="checkbox"  name="subject" id="mathematics" value="Mathematics">
-    <input type="checkbox"  name="subject" id="english" value="English">
-    <input type="checkbox"  name="subject" id="science" value="Science">
-    <input type="checkbox"  name="subject" id="goverment" value="Government">
-    <input type="checkbox"  name="subject" id="art" value="Art">
-    <input type="checkbox"  name="subject" id="civic" value="Civic">
-    <input type="checkbox"  name="subject" id="computer" value="Computer">
-    <input type="checkbox"  name="subject" id="history" value="History">
-    <input type="checkbox"  name="subject" id="history" value="History">
-    <input type="checkbox"  name="subject" id="agriculture" value="Agriculture">
-    </div>
-</div>
-
-<div class="form-group">
-<label for="default" class="col-sm-2 control-label">Religion</label>
-<div class="col-sm-10">
-    <input type="radio" name="gend" value="Male" required="required" checked="">Islam 
-    <input type="radio" name="gender" value="Female" required="required">Christainity
-    <input type="radio" name="gender" value="Other" required="required">Traditional
-</div>
-</div>
-
-
-
-<div class="form-group">
-<label for="default" class="col-sm-2 control-label">State</label>
-<div class="col-sm-10">
- <select name="class" class="form-control" id="default" required="required">
-    <option value="">SELECT</option>
- </select>
-</div>
-</div>
-
-<div class="form-group">
-<label for="date" class="col-sm-2 control-label">DOB</label>
-<div class="col-sm-10">
-    <input type="date"  name="dob" class="form-control" id="date">
- </div>
-</div>
-
- <div class="form-group">
- <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" name="submit" class="btn btn-primary">Submit</button>
-</div>
-</div>
-</form>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.col-md-12 -->
-                                </div>
+            <div class="col-md-8 offset-2"> 
+                <form  method="post"  enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="default" class="form-control">Firstname</label> 
+                        <input type="text" name="firstname" class="form-control" id="firstname"  autocomplete="off" required>
+                        <?php if($firstnameErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($firstnameErr); ?>
+                        </div>
+                        <?php } ?>
                     </div>
-                </div>
-                <!-- /.content-container -->
+                    <div class="form-group">
+                        <label for="lastname" class="form-control">Lastname</label>
+                        <input type="text" name="lastname" class="form-control" id="lastname" required autocomplete="off">
+                        <?php if($lastnameErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($lastnameErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="form-control">Address</label>
+                        <input type="text" name="address" class="form-control" id="address" required autocomplete="off">
+                        <?php if($addressErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($addressErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="marital_status" class="from-control">Marital Status</label>
+                        <select name="marital_status" class="form-control" id="marital_status" required>
+                            <option value="">Select</option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                        </select>
+                        <?php if($marital_statusErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($marital_statusErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="education" class="form-control">Education</label>
+                        <select name="education" class="form-control" id="education" required> 
+                            <option value="">Select</option>
+                            <option value="bsc">BSC</option>
+                            <option value="msc">MSC</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="nce">NCE</option>
+                        </select>
+                        <?php if($educationErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($educationErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-control">Select Best Subject</label>
+                        <input type="checkbox"  name="subject[]" id="mathematics" value="Mathematics">Mathematics
+                        <input type="checkbox"  name="subject[]" id="english" value="English"> English
+                        <input type="checkbox"  name="subject[]" id="science" value="Science"> Science
+                        <input type="checkbox"  name="subject[]" id="goverment" value="Government"> Government
+                        <input type="checkbox"  name="subject[]" id="art" value="Art"> Art
+                        <input type="checkbox"  name="subject[]" id="civic" value="Civic"> Civic
+                        <input type="checkbox"  name="subject[]" id="computer" value="Computer"> Computer
+                        <input type="checkbox"  name="subject[]" id="history" value="History"> History
+                        <input type="checkbox"  name="subject[]" id="agriculture" value="Agriculture">Agriculture
+                        <?php if($subjectErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($subjectErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="religion" class="form-control">Religion</label>
+                        <input type="radio" name="religion" value="Islam">Islam 
+                        <input type="radio" name="religion" value="Christainity">Christainity
+                        <input type="radio" name="religion" value="Traditional">Traditional
+                        <?php if($religionErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($religionErr); ?>
+                        </div>
+                        <?php } ?>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="form-control">Image</label>
+                        <input type="file"  name="image" class="form-control" id="image" required>
+                        <?php if($imageErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($imageErr); ?>
+                        </div>
+                        <?php } ?>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="state" class="form-control">State</label>
+                        <select name="state" class="form-control" id="default" required>
+                            <option value="">Select</option>
+                            <?php $sql = "SELECT * from states";
+                            $query = $dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            if($query->rowCount() > 0)
+                            {
+                            foreach($results as $result)
+                            {   ?>
+                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->name); ?></option>
+                            <?php }} ?>
+                        </select>
+                        <?php if($stateErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($stateErr); ?>
+                        </div>
+                        <?php } ?>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="form-control">DOB</label>
+                        <input type="date"  name="dob" class="form-control" id="date" required>
+                        <?php if($dobErr){?>
+                        <div class="alert alert-danger left-icon-alert" role="alert">
+                        <strong>Oh snap!</strong> <?php echo htmlentities($dobErr); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
-            <!-- /.content-wrapper -->
+                                     
+                </div>
+            </div>
         </div>
         <!-- /.main-wrapper -->
         <script src="js/jquery/jquery-2.2.4.min.js"></script>
@@ -133,17 +300,6 @@
         <script src="js/prism/prism.js"></script>
         <script src="js/select2/select2.min.js"></script>
         <script src="js/main.js"></script>
-        <script>
-            $(function($) {
-                $(".js-states").select2();
-                $(".js-states-limit").select2({
-                    maximumSelectionLength: 2
-                });
-                $(".js-states-hide").select2({
-                    minimumResultsForSearch: Infinity
-                });
-            });
-        </script>
     </body>
 </html>
 <?PHP } ?>

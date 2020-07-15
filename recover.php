@@ -38,7 +38,6 @@ if(isset($_POST['login']))
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -56,7 +55,7 @@ if(isset($_POST['login']))
     <body class="">
         <div class="main-wrapper">
               <div class="row">
-                    <h1 align="center">APPLICATION</h1>
+                    <h1 align="center">Recover APPLICATION</h1>
              <div class="panel-title text-center">
                 <h4>Start Application</h4>
             </div>
@@ -108,3 +107,4 @@ if(isset($_POST['login']))
         </script>
     </body>
 </html>
+
