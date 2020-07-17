@@ -20,7 +20,7 @@ if(strlen($_SESSION['code'])=="")
         <title>APPLICATION< </title>
         <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" >
         <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" >
-        <script src="js/modernizr/modernizr.min.js"></script>
+        
     </head>
 <body class="top-navbar-fixed">
     <div class="container-fluid">                 
@@ -57,14 +57,7 @@ if(strlen($_SESSION['code'])=="")
         </div>
     </div>
         <!-- /.main-wrapper -->
-        <script src="js/jquery/jquery-2.2.4.min.js"></script>
         <script src="js/bootstrap/bootstrap.min.js"></script>
-        <script src="js/pace/pace.min.js"></script>
-        <script src="js/lobipanel/lobipanel.min.js"></script>
-        <script src="js/iscroll/iscroll.js"></script>
-        <script src="js/prism/prism.js"></script>
-        <script src="js/select2/select2.min.js"></script>
-        <script src="js/main.js"></script>
     </body>
 </html>
 <?PHP } ?>

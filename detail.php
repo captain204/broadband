@@ -82,7 +82,20 @@ if(strlen($_SESSION['code'])=="")
                         </tr>
                         <tr>
                             <td>State</td>
-                            <td><?=$result->state?></td>
+                        <?php
+                         
+                        $sql ="SELECT * FROM states WHERE id=:id";
+                        $query= $dbh -> prepare($sql);
+                        $query-> bindParam(':id', $result->state, PDO::PARAM_STR);
+                        $query-> execute();
+                        $states=$query->fetchAll(PDO::FETCH_OBJ);
+                        if($query->rowCount() > 0)
+                        {
+                            foreach($states as $state)
+                            {?> 
+                            <td><?=$state->name?></td>
+                        <?php }?>
+                   <?php } ?>
                         </tr>
                         <tr>
                             <td>Date of Birth</td>
@@ -91,7 +104,7 @@ if(strlen($_SESSION['code'])=="")
                         </tbody>
                     </table>
                     <button class="btn btn-primary" onclick="window.print()">Print </button>
-
+                    <a href="logout.php" class="btn btn-success">Logout</a>
                     </div>
                    <?php }?>
               </div>
@@ -100,14 +113,7 @@ if(strlen($_SESSION['code'])=="")
         </div>
     </div>
         <!-- /.main-wrapper -->
-        <script src="js/jquery/jquery-2.2.4.min.js"></script>
         <script src="js/bootstrap/bootstrap.min.js"></script>
-        <script src="js/pace/pace.min.js"></script>
-        <script src="js/lobipanel/lobipanel.min.js"></script>
-        <script src="js/iscroll/iscroll.js"></script>
-        <script src="js/prism/prism.js"></script>
-        <script src="js/select2/select2.min.js"></script>
-        <script src="js/main.js"></script>
     </body>
 </html>
 <?PHP } ?>

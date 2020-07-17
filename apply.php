@@ -134,172 +134,167 @@ else
     	<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>APPLICATION< </title>
         <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" >
-        <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" >
     </head>
 <body>
     <div class="container-fluid">                 
         <div class="row">
             <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                    <div class="panel-title">
-                        <h5>Fill the Application info</h5>
-                    </div>
-                    <?php if($msg){?>
-                    <div class="alert alert-success left-icon-alert" role="alert">
-                        <strong>Well done!</strong><?php echo htmlentities($msg); ?>
-                    </div><?php } 
-                    else if($error){?>
-                     <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
-                     </div>
-                    <?php } ?>
-              </div>
-            <div class="col-md-8 offset-2"> 
-                <form  method="post"  enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="default" class="form-control">Firstname</label> 
-                        <input type="text" name="firstname" class="form-control" id="firstname"  autocomplete="off" required>
-                        <?php if($firstnameErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($firstnameErr); ?>
+                <div class="col-md-8 col-md-offset-2"> 
+                     <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2 class="text-center">Fill the Application Information</h2>
+                            </div>
+                            <?php if($msg){?>
+                            <div class="alert alert-success left-icon-alert" role="alert">
+                                <strong>Well done!</strong><?php echo htmlentities($msg); ?>
+                            </div><?php } 
+                            else if($error){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                                <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
                     </div>
-                    <div class="form-group">
-                        <label for="lastname" class="form-control">Lastname</label>
-                        <input type="text" name="lastname" class="form-control" id="lastname" required autocomplete="off">
-                        <?php if($lastnameErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($lastnameErr); ?>
+                    <form  method="post"  enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="firstname">Firstname</label> 
+                            <input type="text" name="firstname" class="form-control" id="firstname"  autocomplete="off" required>
+                            <?php if($firstnameErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($firstnameErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="address" class="form-control">Address</label>
-                        <input type="text" name="address" class="form-control" id="address" required autocomplete="off">
-                        <?php if($addressErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($addressErr); ?>
+                        <div class="form-group">
+                            <label for="lastname">Lastname</label>
+                            <input type="text" name="lastname" class="form-control" id="lastname" required autocomplete="off">
+                            <?php if($lastnameErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($lastnameErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="marital_status" class="from-control">Marital Status</label>
-                        <select name="marital_status" class="form-control" id="marital_status" required>
-                            <option value="">Select</option>
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                        </select>
-                        <?php if($marital_statusErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($marital_statusErr); ?>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" class="form-control" id="address" required autocomplete="off">
+                            <?php if($addressErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($addressErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="education" class="form-control">Education</label>
-                        <select name="education" class="form-control" id="education" required> 
-                            <option value="">Select</option>
-                            <option value="bsc">BSC</option>
-                            <option value="msc">MSC</option>
-                            <option value="diploma">Diploma</option>
-                            <option value="nce">NCE</option>
-                        </select>
-                        <?php if($educationErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($educationErr); ?>
+                        <div class="form-group">
+                            <label for="marital_status">Marital Status</label>
+                            <select name="marital_status" class="form-control" id="marital_status" required>
+                                <option value="">Select</option>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                            </select>
+                            <?php if($marital_statusErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($marital_statusErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" class="form-control">Select Best Subject</label>
-                        <input type="checkbox"  name="subject[]" id="mathematics" value="Mathematics">Mathematics
-                        <input type="checkbox"  name="subject[]" id="english" value="English"> English
-                        <input type="checkbox"  name="subject[]" id="science" value="Science"> Science
-                        <input type="checkbox"  name="subject[]" id="goverment" value="Government"> Government
-                        <input type="checkbox"  name="subject[]" id="art" value="Art"> Art
-                        <input type="checkbox"  name="subject[]" id="civic" value="Civic"> Civic
-                        <input type="checkbox"  name="subject[]" id="computer" value="Computer"> Computer
-                        <input type="checkbox"  name="subject[]" id="history" value="History"> History
-                        <input type="checkbox"  name="subject[]" id="agriculture" value="Agriculture">Agriculture
-                        <?php if($subjectErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($subjectErr); ?>
+                        <div class="form-group">
+                            <label for="education">Education</label>
+                            <select name="education" class="form-control" id="education" required> 
+                                <option value="">Select</option>
+                                <option value="bsc">BSC</option>
+                                <option value="msc">MSC</option>
+                                <option value="diploma">Diploma</option>
+                                <option value="nce">NCE</option>
+                            </select>
+                            <?php if($educationErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($educationErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="religion" class="form-control">Religion</label>
-                        <input type="radio" name="religion" value="Islam">Islam 
-                        <input type="radio" name="religion" value="Christainity">Christainity
-                        <input type="radio" name="religion" value="Traditional">Traditional
-                        <?php if($religionErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($religionErr); ?>
+                        <div class="form-group">
+                            <label for="subject" class="form-control">Select Best Subject</label>
+                            <input type="checkbox"  name="subject[]" id="mathematics" value="Mathematics">Mathematics
+                            <input type="checkbox"  name="subject[]" id="english" value="English"> English
+                            <input type="checkbox"  name="subject[]" id="science" value="Science"> Science
+                            <input type="checkbox"  name="subject[]" id="goverment" value="Government"> Government
+                            <input type="checkbox"  name="subject[]" id="art" value="Art"> Art
+                            <input type="checkbox"  name="subject[]" id="civic" value="Civic"> Civic
+                            <input type="checkbox"  name="subject[]" id="computer" value="Computer"> Computer
+                            <input type="checkbox"  name="subject[]" id="history" value="History"> History
+                            <input type="checkbox"  name="subject[]" id="agriculture" value="Agriculture">Agriculture
+                            <?php if($subjectErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($subjectErr); ?>
+                            </div>
+                            <?php } ?>
                         </div>
-                        <?php } ?>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="image" class="form-control">Image</label>
-                        <input type="file"  name="image" class="form-control" id="image" required>
-                        <?php if($imageErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($imageErr); ?>
+                        <div class="form-group">
+                            <label for="religion">Religion</label>
+                            <input type="radio" name="religion" value="Islam">Islam 
+                            <input type="radio" name="religion" value="Christainity">Christainity
+                            <input type="radio" name="religion" value="Traditional">Traditional
+                            <?php if($religionErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($religionErr); ?>
+                            </div>
+                            <?php } ?>
+                            
                         </div>
-                        <?php } ?>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="state" class="form-control">State</label>
-                        <select name="state" class="form-control" id="default" required>
-                            <option value="">Select</option>
-                            <?php $sql = "SELECT * from states";
-                            $query = $dbh->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchAll(PDO::FETCH_OBJ);
-                            if($query->rowCount() > 0)
-                            {
-                            foreach($results as $result)
-                            {   ?>
-                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->name); ?></option>
-                            <?php }} ?>
-                        </select>
-                        <?php if($stateErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($stateErr); ?>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file"  name="image" class="form-control" id="image" required>
+                            <?php if($imageErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($imageErr); ?>
+                            </div>
+                            <?php } ?>
+                            
                         </div>
-                        <?php } ?>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="date" class="form-control">DOB</label>
-                        <input type="date"  name="dob" class="form-control" id="date" required>
-                        <?php if($dobErr){?>
-                        <div class="alert alert-danger left-icon-alert" role="alert">
-                        <strong>Oh snap!</strong> <?php echo htmlentities($dobErr); ?>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <select name="state" class="form-control" id="default" required>
+                                <option value="">Select</option>
+                                <?php $sql = "SELECT * from states";
+                                $query = $dbh->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                if($query->rowCount() > 0)
+                                {
+                                foreach($results as $result)
+                                {   ?>
+                                <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->name); ?></option>
+                                <?php }} ?>
+                            </select>
+                            <?php if($stateErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($stateErr); ?>
+                            </div>
+                            <?php } ?>
+                            
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <label for="date">Date of birth</label>
+                            <input type="date"  name="dob" class="form-control" id="date" required>
+                            <?php if($dobErr){?>
+                            <div class="alert alert-danger left-icon-alert" role="alert">
+                            <strong>Oh snap!</strong> <?php echo htmlentities($dobErr); ?>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
             </div>
                                      
                 </div>
             </div>
         </div>
         <!-- /.main-wrapper -->
-        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        
         <script src="js/bootstrap/bootstrap.min.js"></script>
-        <script src="js/pace/pace.min.js"></script>
-        <script src="js/lobipanel/lobipanel.min.js"></script>
-        <script src="js/iscroll/iscroll.js"></script>
-        <script src="js/prism/prism.js"></script>
-        <script src="js/select2/select2.min.js"></script>
-        <script src="js/main.js"></script>
+        
     </body>
 </html>
 <?PHP } ?>
